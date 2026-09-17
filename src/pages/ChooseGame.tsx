@@ -85,7 +85,7 @@ export default function ChooseGame() {
                         to="/game" 
                         className="flex flex-row items-center justify-center w-full h-full gap-x-5"
                     >
-                        <Play strokeWidth={3} className="w-5 h-5 md:w-6 md:h-6" /> 
+                        <Play strokeWidth={3} className="w-5! h-5! md:w-6! md:h-6!" /> 
                         Start Game
                     </Link>
                 </Button>
