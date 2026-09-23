@@ -10,25 +10,25 @@ import GameHeading from "@/components/GameHeading";
 export default function Game() {
     const { questions, currentQuestionIndex ,selectedCategory } = useSelector((state: RootState) => state.quiz);
     const dispatch = useDispatch();
-    const [selectedAnswer, setSelectedAnwser] = useState<string | null>(null);
+    const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
     const categorizedQuestions = questions.filter(question => question.category === selectedCategory);
     const currentQuestion = categorizedQuestions[currentQuestionIndex];
 
     useEffect(() => {
-        setSelectedAnwser(null)
-    }, [setSelectedAnwser]);
+        setSelectedAnswer(null)
+    }, [currentQuestionIndex]);
 
     const handleAnswerQuestion = (selectedOption: string) => {
         if (selectedAnswer !== null) return;
 
-        setSelectedAnwser(selectedOption);
+        setSelectedAnswer(selectedOption);
 
         setTimeout(() => {
             dispatch(answerQuestion(selectedOption));
-        }, 1000)
+        }, 1000);
         
-    }
+    };
 
     return (
         <div className="flex flex-col  min-h-screen 

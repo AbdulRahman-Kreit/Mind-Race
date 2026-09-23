@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function WinPopup() {
+export default function WinScreen() {
     return (
         <div>WinPopup</div>
     )
