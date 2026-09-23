@@ -1,22 +1,30 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
-import { answerQuestion } from "@/features/quiz/quizSlice";
+import { answerQuestion, startQuizByCategory } from "@/features/quiz/quizSlice";
 import { Card } from "@/components/ui/card";
 import GameHeading from "@/components/GameHeading";
 
-
-
 export default function Game() {
-    const { questions, currentQuestionIndex ,selectedCategory } = useSelector((state: RootState) => state.quiz);
+    const { 
+        categorizedQuestions = [], 
+        currentQuestionIndex, 
+        selectedCategory 
+    } = useSelector((state: RootState) => state.quiz);
+
     const dispatch = useDispatch();
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
-    const categorizedQuestions = questions.filter(question => question.category === selectedCategory);
+    useEffect(() => {
+        if (categorizedQuestions) {
+            dispatch(startQuizByCategory(selectedCategory));
+        }
+    }, [dispatch, selectedCategory]);
+
     const currentQuestion = categorizedQuestions[currentQuestionIndex];
 
     useEffect(() => {
-        setSelectedAnswer(null)
+        setSelectedAnswer(null);
     }, [currentQuestionIndex]);
 
     const handleAnswerQuestion = (selectedOption: string) => {
@@ -27,31 +35,33 @@ export default function Game() {
         setTimeout(() => {
             dispatch(answerQuestion(selectedOption));
         }, 1000);
-        
     };
 
+    if (!currentQuestion) {
+        return (
+            <div className="flex justify-center items-center min-h-screen text-white text-2xl">
+                Loading questions...
+            </div>
+        );
+    }
+
     return (
-        <div className="flex flex-col  min-h-screen 
-        max-w-7xl w-full mx-auto text-white py-5 px-10">
+        <div className="flex flex-col min-h-screen max-w-7xl w-full mx-auto text-white py-5 px-10">
             <GameHeading />
+
             {/* Game Box */}
             <div className="flex flex-row justify-between mt-20">
                 {/* Progress Bar */}
                 <div className="flex flex-row items-center w-full">
-                    <span className="w-9/10 h-8 bg-linear-to-r from-[#032b50] 
-                    to-[#032749] rounded-2xl">
-                        
-                    </span>
-                    <h4 className="text-2xl py-1.5 px-4 border border-[#032749] 
-                    rounded-3xl ml-5">
+                    <span className="w-9/10 h-8 bg-linear-to-r from-[#032b50] to-[#032749] rounded-2xl"></span>
+                    <h4 className="text-2xl py-1.5 px-4 border border-[#032749] rounded-3xl ml-5">
                         {currentQuestionIndex + 1}/{categorizedQuestions.length}
                     </h4>
                 </div>
-                
-            </div>  
+            </div>
+
             {/* Question Card */}
-            <Card className="flex flex-col items-start mt-12 p-6 w-full bg-linear-45 from-[#011527]
-            to-[#011f3b] text-white border-2 border-[#143250]">
+            <Card className="flex flex-col items-start mt-12 p-6 w-full bg-linear-45 from-[#011527] to-[#011f3b] text-white border-2 border-[#143250]">
                 <div className="text-[16px] text-[#F47718] py-2 px-4 border border-[#F47718] rounded-4xl">
                     {selectedCategory}
                 </div>
@@ -59,7 +69,8 @@ export default function Game() {
                     {currentQuestion.question}
                 </p>
             </Card>
-            {/* Answers Cards */}
+
+            {/* Answer Cards */}
             <div className="flex flex-col md:grid grid-cols-2 gap-5 mt-10">
                 {currentQuestion.options.map((answer, index) => {
                     const isCorrect = answer === currentQuestion.correctAnswer;
@@ -75,7 +86,7 @@ export default function Game() {
                         }
                     }
 
-                    return(
+                    return (
                         <Card 
                             key={index}
                             onClick={() => handleAnswerQuestion(answer)}
@@ -85,9 +96,9 @@ export default function Game() {
                         >
                             {answer}
                         </Card>
-                    )
+                    );
                 })}
             </div>
         </div>
-    )
+    );
 }

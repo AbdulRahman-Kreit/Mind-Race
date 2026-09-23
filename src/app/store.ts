@@ -22,7 +22,17 @@ const loadState = () => {
 
 const saveState = (state: { quiz: QuizState; }) => {
     try {
-        const serializedState = JSON.stringify(state);
+        const { currentQuestionIndex, score, ...restOfQuiz } = state.quiz;
+
+        const stateToSave = {
+            quiz: {
+                ...restOfQuiz,
+                currentQuestionIndex: 0,
+                score: 0,
+            }
+        }
+
+        const serializedState = JSON.stringify(stateToSave);
         localStorage.setItem('mindrace_data', serializedState);
     } catch(err) {
         console.error('could not save data', err);

@@ -13,6 +13,7 @@ export interface Question {
 
 export interface QuizState {
     questions: Question[],
+    categorizedQuestions: Question[],
     currentQuestionIndex: number,
     score: number,
     isQuizOver: boolean,
@@ -24,6 +25,7 @@ export interface QuizState {
 
 const initialState: QuizState = {
     questions: questionsData,
+    categorizedQuestions: [],
     currentQuestionIndex: 0,
     score: 0,
     isQuizOver: false,
@@ -33,19 +35,41 @@ const initialState: QuizState = {
     gameStatus: 'idle',
 }
 
+function shuffleArray(array: Question[]): Question[] {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+
+    return newArray;
+};
 
 export const quizSlice = createSlice({
     name: 'quiz',
     initialState,
     reducers: {
+        startQuizByCategory: (state, action: PayloadAction<string>) => {
+            state.selectedCategory = action.payload;
+
+            const categorized = state.questions.filter(
+                (question) => question.category === action.payload
+            );
+
+            state.categorizedQuestions = shuffleArray(categorized);
+            state.currentQuestionIndex = 0;
+            state.score = 0;
+            state.isQuizOver = false;
+            state.gameStatus = "playing";
+        },
         answerQuestion: (state, action: PayloadAction<string>) => {
-            const currentQuestion = state.questions[state.currentQuestionIndex];
+            const currentQuestion = state.categorizedQuestions[state.currentQuestionIndex];
 
             if (currentQuestion.correctAnswer === action.payload) {
                 state.score += 10;
             }
             
-            if (state.currentQuestionIndex + 1 < state.questions.length) {
+            if (state.currentQuestionIndex + 1 < state.categorizedQuestions.length) {
                 state.currentQuestionIndex += 1;
             } else {
                 state.isQuizOver = true;
@@ -90,7 +114,8 @@ export const quizSlice = createSlice({
 });
 
 export const { 
-    answerQuestion, 
+    startQuizByCategory,
+    answerQuestion,
     resetQuiz, 
     setCategory, 
     setDifficulty, 
