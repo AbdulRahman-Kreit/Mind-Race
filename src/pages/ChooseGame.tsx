@@ -1,3 +1,7 @@
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "@/app/store";
+import { setCategory, setDifficulty, startGame } from '@/features/quiz/quizSlice';
+
 import PageHeading from "@/components/PageHeading";
 import { Globe, CodeXml, Landmark, Gamepad2, Play, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,25 +10,37 @@ import { Link } from "react-router-dom";
 interface Items {
     id: number,
     name: string,
+    value: string,
     icon: LucideIcon,
 }
 
 const categories: Items[] = [
-    { id: 1, name: 'Generals', icon: Globe },
-    { id: 2, name: 'Programming', icon: CodeXml },
-    { id: 3, name: 'History', icon: Landmark },
-    { id: 4, name: 'Gaming', icon: Gamepad2 },
+    { id: 1, name: 'Generals', value: "generals", icon: Globe },
+    { id: 2, name: 'Programming', value: "programming", icon: CodeXml },
+    { id: 3, name: 'History', value: "history", icon: Landmark },
+    { id: 4, name: 'Games', value: "games", icon: Gamepad2 },
 ];
 
 const difficulty = [
-    { id: 1, name: 'Easy', color: 'bg-[#0FD073]' },
-    { id: 2, name: 'Medium', color: 'bg-[#F74727]' },
-    { id: 3, name: 'Hard', color: 'bg-[#FF4744]' },
+    { id: 1, name: 'Easy', value: "easy", color: 'bg-[#0FD073]' },
+    { id: 2, name: 'Medium', value: "medium", color: 'bg-[#F74727]' },
+    { id: 3, name: 'Hard', value: "hard", color: 'bg-[#FF4744]' },
 ];
 
 const subheadingStyle = `text-lg lg:text-2xl font-semibold mb-5`;
 
 export default function ChooseGame() {
+    const { selectedCategory, selectedDifficulty } = useSelector((state: RootState) => state.quiz);
+    const dispatch = useDispatch();
+
+    const handleSelectCategory = (type: string) => {
+        dispatch(setCategory(type));
+    };
+
+    const handleSelectDifficulty = (type: string) => {
+        dispatch(setDifficulty(type));
+    };
+
     return (
         <div className="flex flex-col justify-center items-center min-h-screen 
         max-w-7xl w-full mx-auto text-white py-5 px-10">
@@ -45,11 +61,18 @@ export default function ChooseGame() {
 
                             return (
                                 <Button key={categorie.id} variant="option" size="optionSize"
-                                className="transition ease-in-out duration-300 
-                                hover:bg-[#FD8226]/30 hover:border-[#FD8226]">
-                                    <IconComponent className="w-8! h-8! mb-4
+                                onClick={() => handleSelectCategory(categorie.value)}
+                                className={`transition ease-in-out duration-300 
+                                hover:bg-[#FD8226]/30 hover:border-[#FD8226] group
+                                ${categorie.value === selectedCategory ? 
+                                'bg-[#FD8226]/30 border-[#FD8226]' : 
+                                ''}`}>
+                                    <IconComponent className={`w-8! h-8! mb-4
                                     transition ease-in-out duration-300
-                                    text-[#A3BFDB]! hover:text-[#FD8226]!" 
+                                    group-hover:text-[#FD8226]!
+                                    ${categorie.value === selectedCategory ? 
+                                    'text-[#FD8226]!' : 
+                                    'text-[#A3BFDB]!'}`} 
                                     strokeWidth={2.5} />
                                     <h4 className="text-[#A3BFDB]">
                                         {categorie.name}
@@ -68,8 +91,12 @@ export default function ChooseGame() {
 
                             return(
                             <Button variant="difficulty" size="diffSize" key={item.id}
-                            className="transition ease-in-out duration-300 
-                            hover:bg-[#FD8226]/30 hover:border-[#FD8226]">
+                            onClick={() => handleSelectDifficulty(item.value)}
+                            className={`transition ease-in-out duration-300 
+                            hover:bg-[#FD8226]/30 hover:border-[#FD8226]
+                            ${item.value === selectedDifficulty ? 
+                            'bg-[#FD8226]/30 border-[#FD8226]' : 
+                            'border-[#143250]'}`}>
                                 <span className={`w-4 h-4 rounded-full ${item.color} mr-3`}></span>
                                 <h4>
                                     {item.name}
@@ -80,15 +107,17 @@ export default function ChooseGame() {
                     </div>
                 </div>
             </div>
-            <Button variant="main" size="xl">
-                    <Link 
-                        to="/game" 
-                        className="flex flex-row items-center justify-center w-full h-full gap-x-5"
-                    >
-                        <Play strokeWidth={3} className="w-5! h-5! md:w-6! md:h-6!" /> 
-                        Start Game
-                    </Link>
-                </Button>
+            <Button 
+            onClick={() => startGame()}
+            variant="main" size="xl">
+                <Link 
+                    to="/game" 
+                    className="flex flex-row items-center justify-center w-full h-full gap-x-5"
+                >
+                    <Play strokeWidth={3} className="w-5! h-5! md:w-6! md:h-6!" />
+                    Start Game
+                </Link>
+            </Button>
         </div>
     )
 }
