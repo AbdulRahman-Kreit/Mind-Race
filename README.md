@@ -1,75 +1,56 @@
-# React + TypeScript + Vite
+# Mind Race
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> A fast-paced, competitive trivia quiz game built with React, TypeScript, Redux Toolkit, and Tailwind CSS.
 
-Currently, two official plugins are available:
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<!-- Add a screenshot or demo GIF here -->
+<!-- ![Mind Race Preview](./public/preview.png) -->
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- **Category Selection**: Choose from a wide range of quiz topics including Science, History, Pop Culture, and Technology.
+- **Custom Difficulty**: Tailor your game experience by choosing Easy, Medium, or Hard questions.
+- **Audio Controls**: Toggle background music and sound effects on demand.
+- **Responsive & Accessible UI**: Fully optimized across desktop, tablet, and mobile devices using Tailwind CSS and shadcn/ui.
+- **State Management**: Uses Redux Toolkit to track player scores, game timer, active question states, and sound preferences.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Framework**: [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **State Management**: [Redux Toolkit](https://redux-toolkit.js.org/)
+- **Code Quality**: ESLint, Prettier
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
 
-```
+## Getting Started
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Follow these steps to set up and run the project locally.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v18.0.0 or higher)
+- npm, pnpm, or yarn
 
-```
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/AbdulRahman-Kreit/Mind-Race.git
+   cd Mind-Race
+
+2. **Install Dependencies**
+  npm install
+
+3. **Run the development server
+  npm run dev
