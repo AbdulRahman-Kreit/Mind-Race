@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { finishGame, timeDecrement } from "@/features/quiz/quizSlice";
+import type { AppDispatch, RootState } from "@/app/store";
 import { Card } from "./ui/card";
 import { Button } from "@base-ui/react/button";
 import { Star, Clock, Flame, Pause, type LucideIcon } from "lucide-react";
@@ -9,13 +13,32 @@ interface GameStat {
     icon: LucideIcon;
 }
 
-const gameStats: GameStat[] = [
-    { id: 1, label: "Time", value: "00:45", icon: Clock },
-    { id: 2, label: "Score", value: "150", icon: Star },
-    { id: 3, label: "Streak", value: 3, icon: Flame },
+export default function GameHeading() {
+    const { timeLimit, score, streak, gameStatus } = useSelector((state: RootState) => state.quiz);
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        let intervalId: ReturnType<typeof setInterval>;
+
+        if (gameStatus === 'playing' && timeLimit > 0) {
+            intervalId = setInterval(() => {
+                dispatch(timeDecrement());
+            }, 1000);
+        } else if (gameStatus === 'playing' && timeLimit === 0) {
+            dispatch(finishGame());
+        }
+
+        return () => {
+            if (intervalId) clearInterval(intervalId);
+        };
+    }, [gameStatus, timeLimit, dispatch]);
+
+    const gameStats: GameStat[] = [
+    { id: 1, label: "Time", value: timeLimit, icon: Clock },
+    { id: 2, label: "Score", value: score, icon: Star },
+    { id: 3, label: "Streak", value: streak, icon: Flame },
 ];
 
-export default function GameHeading() {
     return (
         <div className="flex flex-row justify-between w-full">
             <div className="flex flex-row items-center gap-x-3">

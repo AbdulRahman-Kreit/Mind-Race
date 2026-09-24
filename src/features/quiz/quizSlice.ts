@@ -21,6 +21,7 @@ export interface QuizState {
     selectedDifficulty: Difficulty,
     timeLimit: number,
     gameStatus: "idle" | "playing" | "finished",
+    streak: number,
 }
 
 const initialState: QuizState = {
@@ -33,6 +34,7 @@ const initialState: QuizState = {
     selectedDifficulty: 'easy',
     timeLimit: 180,
     gameStatus: 'idle',
+    streak: 0,
 }
 
 function shuffleArray(array: Question[]): Question[] {
@@ -59,14 +61,19 @@ export const quizSlice = createSlice({
             state.categorizedQuestions = shuffleArray(categorized);
             state.currentQuestionIndex = 0;
             state.score = 0;
+            state.streak = 0;
             state.isQuizOver = false;
             state.gameStatus = "playing";
         },
         answerQuestion: (state, action: PayloadAction<string>) => {
             const currentQuestion = state.categorizedQuestions[state.currentQuestionIndex];
+            if (!currentQuestion) return;
 
             if (currentQuestion.correctAnswer === action.payload) {
                 state.score += 10;
+                state.streak += 1;
+            } else {
+                state.streak = 0;
             }
             
             if (state.currentQuestionIndex + 1 < state.categorizedQuestions.length) {
@@ -78,6 +85,7 @@ export const quizSlice = createSlice({
         resetQuiz: (state) => {
             state.currentQuestionIndex = 0;
             state.score = 0;
+            state.streak = 0;
             state.isQuizOver = false;
         },
         setCategory: (state, action) => {
@@ -109,7 +117,14 @@ export const quizSlice = createSlice({
         },
         finishGame: (state) => {
             state.gameStatus = "finished";
-        }
+        },
+        timeDecrement: (state) => {
+            if (state.timeLimit > 0) {
+                state.timeLimit -= 1;
+            } else {
+                state.isQuizOver = true;
+            }
+        },
     }
 });
 
@@ -122,5 +137,6 @@ export const {
     startGame, 
     pauseGaem, 
     finishGame,
+    timeDecrement,
 } = quizSlice.actions;
 export default quizSlice.reducer;
