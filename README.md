@@ -13,7 +13,7 @@
 
 ## Features
 
-- **Category Selection**: Choose from a wide range of quiz topics including Science, History, Pop Culture, and Technology.
+- **Category Selection**: Choose from a wide range of quiz topics including Programming, History, Video Games, and General Information.
 - **Custom Difficulty**: Tailor your game experience by choosing Easy, Medium, or Hard questions.
 - **Audio Controls**: Toggle background music and sound effects on demand.
 - **Responsive & Accessible UI**: Fully optimized across desktop, tablet, and mobile devices using Tailwind CSS and shadcn/ui.
