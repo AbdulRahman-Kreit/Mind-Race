@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSoundEffect } from "@/hooks/useSoundEffect";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
 import { answerQuestion, startQuizByCategory } from "@/features/quiz/quizSlice";
@@ -13,6 +14,8 @@ export default function Game() {
         selectedCategory, 
         gameResult
     } = useSelector((state: RootState) => state.quiz);
+
+    const { playSound, stopSound } = useSoundEffect();
 
     const dispatch = useDispatch();
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -29,6 +32,14 @@ export default function Game() {
         setSelectedAnswer(null);
     }, [currentQuestionIndex]);
 
+    useEffect(() => {
+        playSound('game');
+
+        return () => {
+            stopSound();
+        }
+    }, [playSound, stopSound]);
+
     const handleAnswerQuestion = (selectedOption: string) => {
         if (selectedAnswer !== null) return;
 
@@ -37,6 +48,12 @@ export default function Game() {
         setTimeout(() => {
             dispatch(answerQuestion(selectedOption));
         }, 1000);
+
+        if (selectedOption === currentQuestion.correctAnswer) {
+            playSound('correct');
+        } else {
+            playSound('wrong');
+        }
     };
 
     if (!currentQuestion) {
@@ -48,11 +65,13 @@ export default function Game() {
     }
 
     if (gameResult === 'win') {
+        playSound('winner');
         return (<ResultScreen 
             image="/assets/Winner.png"
             header="You Won!"
             text="Great job! You complete the game with an amazing score!" />);
     } else if (gameResult === 'lose') {
+        playSound('loser');
         return (<ResultScreen 
             image="/assets/Loser.png"
             header="Game Over!"
