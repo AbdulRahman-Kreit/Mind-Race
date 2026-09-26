@@ -22,6 +22,10 @@ export interface QuizState {
     timeLimit: number,
     gameStatus: "idle" | "playing" | "finished",
     streak: number,
+    correctAnswers: number,
+    wrongAnswers: number,
+    wrongAnswersDifficulties: number,
+    gameResult: "win" | "lose" | "pending",
 }
 
 const initialState: QuizState = {
@@ -35,6 +39,10 @@ const initialState: QuizState = {
     timeLimit: 180,
     gameStatus: 'idle',
     streak: 0,
+    correctAnswers: 0,
+    wrongAnswers: 0,
+    wrongAnswersDifficulties: 7,
+    gameResult: "pending",
 }
 
 function shuffleArray(array: Question[]): Question[] {
@@ -62,31 +70,44 @@ export const quizSlice = createSlice({
             state.currentQuestionIndex = 0;
             state.score = 0;
             state.streak = 0;
+            state.wrongAnswers = 0;
             state.isQuizOver = false;
             state.gameStatus = "playing";
+            state.gameResult = "pending";
         },
         answerQuestion: (state, action: PayloadAction<string>) => {
             const currentQuestion = state.categorizedQuestions[state.currentQuestionIndex];
-            if (!currentQuestion) return;
+            if (!currentQuestion || state.isQuizOver) return;
 
             if (currentQuestion.correctAnswer === action.payload) {
                 state.score += 10;
                 state.streak += 1;
+                state.correctAnswers += 1;
             } else {
+                state.wrongAnswers += 1;
                 state.streak = 0;
             }
-            
-            if (state.currentQuestionIndex + 1 < state.categorizedQuestions.length) {
+
+            if (state.wrongAnswers > state.wrongAnswersDifficulties) {
+                state.isQuizOver = true;
+                state.gameStatus = 'finished';
+                state.gameResult = 'lose';
+            } else if (state.currentQuestionIndex + 1 < state.categorizedQuestions.length) {
                 state.currentQuestionIndex += 1;
             } else {
                 state.isQuizOver = true;
+                state.gameStatus = 'finished';
+                state.gameResult = 'win';
             }
         },
         resetQuiz: (state) => {
             state.currentQuestionIndex = 0;
             state.score = 0;
             state.streak = 0;
+            state.wrongAnswers = 0;
             state.isQuizOver = false;
+            state.gameStatus = 'idle';
+            state.gameResult = 'pending';
         },
         setCategory: (state, action) => {
             state.selectedCategory = action.payload;
@@ -98,14 +119,17 @@ export const quizSlice = createSlice({
             switch (Difficulty) {
                 case 'easy':
                     state.timeLimit = 180;
+                    state.wrongAnswersDifficulties = 7;
                     break;
 
                 case 'medium':
                     state.timeLimit = 120;
+                    state.wrongAnswersDifficulties = 5;
                     break;
 
                 case 'hard':
                     state.timeLimit = 60;
+                    state.wrongAnswersDifficulties = 3;
                     break;
             }
         },
@@ -123,6 +147,8 @@ export const quizSlice = createSlice({
                 state.timeLimit -= 1;
             } else {
                 state.isQuizOver = true;
+                state.gameStatus = 'finished';
+                state.gameResult = 'lose';
             }
         },
     }

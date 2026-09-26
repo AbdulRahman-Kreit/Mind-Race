@@ -55,7 +55,7 @@ export default function GameHeading() {
                     return (
                     <Card
                         key={stat.id}
-                        className="flex flex-row items-center gap-3 px-5 py-3 bg-[#02182D]/80 border-2 border-[#143250] rounded-2xl text-white min-w-[140px]"
+                        className="flex flex-row items-center gap-3 px-5 py-3 bg-[#02182D]/80 border-2 border-[#143250] rounded-2xl text-white min-w-35"
                     >
                         <div className="p-2 rounded-full bg-[#F47718]/10 text-[#F47718] flex items-center justify-center">
                             <IconComponent className="w-6 h-6 stroke-[2.5]" />

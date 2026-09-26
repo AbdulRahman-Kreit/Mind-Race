@@ -4,12 +4,14 @@ import type { RootState } from "@/app/store";
 import { answerQuestion, startQuizByCategory } from "@/features/quiz/quizSlice";
 import { Card } from "@/components/ui/card";
 import GameHeading from "@/components/GameHeading";
+import ResultScreen from "./ResultScreen";
 
 export default function Game() {
     const { 
         categorizedQuestions = [], 
         currentQuestionIndex, 
-        selectedCategory 
+        selectedCategory, 
+        gameResult
     } = useSelector((state: RootState) => state.quiz);
 
     const dispatch = useDispatch();
@@ -44,6 +46,19 @@ export default function Game() {
             </div>
         );
     }
+
+    if (gameResult === 'win') {
+        return (<ResultScreen 
+            image="/assets/Winner.png"
+            header="You Won!"
+            text="Great job! You complete the game with an amazing score!" />);
+    } else if (gameResult === 'lose') {
+        return (<ResultScreen 
+            image="/assets/Loser.png"
+            header="Game Over!"
+            text="Better luck next time! Keep practicing and you'll get it!" />);
+    }
+
 
     return (
         <div className="flex flex-col min-h-screen max-w-7xl w-full mx-auto text-white py-5 px-10">
