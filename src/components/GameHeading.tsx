@@ -4,7 +4,7 @@ import { finishGame, timeDecrement } from "@/features/quiz/quizSlice";
 import type { AppDispatch, RootState } from "@/app/store";
 import { Card } from "./ui/card";
 import { Button } from "@base-ui/react/button";
-import { Star, Clock, Flame, Pause, type LucideIcon } from "lucide-react";
+import { Star, Clock, Flame, CircleX, Pause, type LucideIcon } from "lucide-react";
 
 interface GameStat {
     id: number;
@@ -14,7 +14,7 @@ interface GameStat {
 }
 
 export default function GameHeading() {
-    const { timeLimit, score, streak, gameStatus } = useSelector((state: RootState) => state.quiz);
+    const { timeLimit, score, streak, wrongAnswers, gameStatus } = useSelector((state: RootState) => state.quiz);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -37,6 +37,7 @@ export default function GameHeading() {
     { id: 1, label: "Time", value: timeLimit, icon: Clock },
     { id: 2, label: "Score", value: score, icon: Star },
     { id: 3, label: "Streak", value: streak, icon: Flame },
+    { id: 4, label: "Wrong Answers", value: wrongAnswers, icon: CircleX },
 ];
 
     return (
