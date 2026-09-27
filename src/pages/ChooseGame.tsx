@@ -46,7 +46,7 @@ export default function ChooseGame() {
             <PageHeading title="Choose Your Game" />
             {/* Options Box */}
             <div className="flex flex-col w-full my-10 p-10 bg-[#02182D] rounded-2xl 
-            border-2 border-[#143250]">
+            border-2 border-[#143250] overflow-x-hidden">
                 <h2 className="text-lg lg:text-3xl font-semibold mb-5">
                     Choose Your Game
                 </h2>
@@ -54,14 +54,23 @@ export default function ChooseGame() {
                     <h3 className={subheadingStyle}>
                         Select Category
                     </h3>
-                    <div className="flex flex-row gap-x-10">
+                    <div className="flex flex-row gap-x-10 overflow-x-auto sm:overflow-x-visible pb-4 sm:pb-0 
+                    scrollbar-thin 
+                    [scrollbar-color:#FD8226_#02182D] 
+                    [&::-webkit-scrollbar]:h-2 
+                    [&::-webkit-scrollbar-track]:bg-[#02182D]!
+                    [&::-webkit-scrollbar-track]:border 
+                    [&::-webkit-scrollbar-track]:border-[#143250]!
+                    [&::-webkit-scrollbar-track]:rounded-full!
+                    [&::-webkit-scrollbar-thumb]:bg-[#FD8226]! 
+                    [&::-webkit-scrollbar-thumb]:rounded-full">
                         {categories.map((categorie) => {
                             const IconComponent = categorie.icon;
 
                             return (
                                 <Button key={categorie.id} variant="option" size="optionSize"
                                 onClick={() => handleSelectCategory(categorie.value)}
-                                className={`transition ease-in-out duration-300 
+                                className={`shrink-0 transition ease-in-out duration-300 
                                 hover:bg-[#FD8226]/30 hover:border-[#FD8226] group
                                 ${categorie.value === selectedCategory ? 
                                 'bg-[#FD8226]/30 border-[#FD8226]' : 
@@ -85,13 +94,22 @@ export default function ChooseGame() {
                     <h3 className={subheadingStyle}>
                         Select Difficulty
                     </h3>
-                    <div className="flex flex-row gap-x-10">
+                    <div className="flex flex-row gap-x-10 overflow-x-auto sm:overflow-x-visible pb-4 sm:pb-0 
+                    scrollbar-thin 
+                    [scrollbar-color:#FD8226_#02182D] 
+                    [&::-webkit-scrollbar]:h-2 
+                    [&::-webkit-scrollbar-track]:bg-[#02182D] 
+                    [&::-webkit-scrollbar-track]:border 
+                    [&::-webkit-scrollbar-track]:border-[#143250] 
+                    [&::-webkit-scrollbar-track]:rounded-full 
+                    [&::-webkit-scrollbar-thumb]:bg-[#FD8226] 
+                    [&::-webkit-scrollbar-thumb]:rounded-full">
                         {difficulty.map((item) => {
 
                             return(
                             <Button variant="difficulty" size="diffSize" key={item.id}
                             onClick={() => handleSelectDifficulty(item.value)}
-                            className={`transition ease-in-out duration-300 
+                            className={`shrink-0 transition ease-in-out duration-300 
                             hover:bg-[#FD8226]/30 hover:border-[#FD8226]
                             ${item.value === selectedDifficulty ? 
                             'bg-[#FD8226]/30 border-[#FD8226]' : 

@@ -108,10 +108,10 @@ export default function Game() {
 
             {/* Question Card */}
             <Card className="flex flex-col items-start mt-12 p-6 w-full bg-linear-45 from-[#011527] to-[#011f3b] text-white border-2 border-[#143250]">
-                <div className="text-[16px] text-[#F47718] py-2 px-4 border border-[#F47718] rounded-4xl">
+                <div className="text-sm md:text-[16px] text-[#F47718] py-2 px-4 border border-[#F47718] rounded-4xl">
                     {selectedCategory}
                 </div>
-                <p className="text-4xl mt-4">
+                <p className="text-2xl md:text-4xl mt-4">
                     {currentQuestion.question}
                 </p>
             </Card>
@@ -136,7 +136,7 @@ export default function Game() {
                         <Card 
                             key={index}
                             onClick={() => handleAnswerQuestion(answer)}
-                            className={`p-4 text-xl border-2 transition ease-in-out duration-300 cursor-pointer ${cardStyles} ${
+                            className={`p-4 text-lg md:text-xl border-2 transition ease-in-out duration-300 cursor-pointer ${cardStyles} ${
                                 selectedAnswer === null ? "hover:bg-[#FD8226]/30 hover:border-[#FD8226]" : ""
                             }`}
                         >

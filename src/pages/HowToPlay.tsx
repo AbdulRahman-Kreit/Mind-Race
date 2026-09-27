@@ -29,12 +29,11 @@ export default function HowToPlay() {
                         const IconComponent = item.icon;
 
                         return(
-                            <div key={item.id} className="flex flex-row items-start my-5">
+                            <div key={item.id} className="flex flex-row items-start my-5 gap-x-4">
                                 <div className="flex items-center justify-center 
-                                w-14 h-14 lg:w-18 lg:h-18 border-2 border-[#FD8226] 
-                                rounded-full mr-8">
-                                    <IconComponent color="#FD8226" strokeWidth={2}
-                                    className="w-5! h-5! lg:w-8! lg:h-8!" />
+                                w-12 h-12 sm:w-16 sm:h-16 border-2 border-[#FD8226] 
+                                rounded-full shrink-0 bg-[#FD8226]/10">
+                                    <IconComponent className="w-5 h-5 sm:w-8 sm:h-8 text-[#FD8226]" strokeWidth={2} />
                                 </div>
                             
                                 <div>
