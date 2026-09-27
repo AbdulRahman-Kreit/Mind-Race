@@ -5,7 +5,7 @@ import { Star, Flame, CheckCircle2, CircleX, Clock } from "lucide-react";
 export default function ResultCard() {
     const { 
         score, 
-        streak, 
+        bestStreak, 
         categorizedQuestions,
         correctAnswers,
         wrongAnswers, 
@@ -33,7 +33,7 @@ export default function ResultCard() {
         {
             id: "streak",
             label: "Best Streak",
-            value: streak,
+            value: bestStreak,
             icon: <Flame className="w-6 h-6 text-orange-500 fill-orange-500" />
         },
         {

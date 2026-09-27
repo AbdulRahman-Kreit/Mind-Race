@@ -22,6 +22,7 @@ export interface QuizState {
     timeLimit: number,
     gameStatus: "idle" | "playing" | "finished" | "pause",
     streak: number,
+    bestStreak: number,
     correctAnswers: number,
     wrongAnswers: number,
     wrongAnswersDifficulties: number,
@@ -39,6 +40,7 @@ const initialState: QuizState = {
     timeLimit: 180,
     gameStatus: 'idle',
     streak: 0,
+    bestStreak: 0,
     correctAnswers: 0,
     wrongAnswers: 0,
     wrongAnswersDifficulties: 7,
@@ -70,6 +72,7 @@ export const quizSlice = createSlice({
             state.currentQuestionIndex = 0;
             state.score = 0;
             state.streak = 0;
+            state.bestStreak = 0;
             state.wrongAnswers = 0;
             state.isQuizOver = false;
             state.gameStatus = "playing";
@@ -93,6 +96,10 @@ export const quizSlice = createSlice({
             } else {
                 state.wrongAnswers += 1;
                 state.streak = 0;
+            }
+
+            if (state.streak > state.bestStreak) {
+                state.bestStreak = state.streak;
             }
 
             if (state.wrongAnswers > state.wrongAnswersDifficulties) {
