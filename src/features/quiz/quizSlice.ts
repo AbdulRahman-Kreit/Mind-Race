@@ -83,6 +83,13 @@ export const quizSlice = createSlice({
                 state.score += 10;
                 state.streak += 1;
                 state.correctAnswers += 1;
+                if (state.streak >= 7) {
+                    state.score += 25;
+                } else if (state.streak >= 5) {
+                    state.score += 20;
+                } else if (state.streak >= 3) {
+                    state.score += 15;
+                }
             } else {
                 state.wrongAnswers += 1;
                 state.streak = 0;
@@ -136,7 +143,7 @@ export const quizSlice = createSlice({
         startGame: (state) => {
             state.gameStatus = "playing";
         },
-        pauseGaem: (state) => {
+        pauseGame: (state) => {
             state.gameStatus = "idle";
         },
         finishGame: (state) => {
@@ -161,7 +168,7 @@ export const {
     setCategory, 
     setDifficulty, 
     startGame, 
-    pauseGaem, 
+    pauseGame, 
     finishGame,
     timeDecrement,
 } = quizSlice.actions;
