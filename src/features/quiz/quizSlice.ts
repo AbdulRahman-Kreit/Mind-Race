@@ -20,7 +20,7 @@ export interface QuizState {
     selectedCategory: string,
     selectedDifficulty: Difficulty,
     timeLimit: number,
-    gameStatus: "idle" | "playing" | "finished",
+    gameStatus: "idle" | "playing" | "finished" | "pause",
     streak: number,
     correctAnswers: number,
     wrongAnswers: number,
@@ -144,7 +144,7 @@ export const quizSlice = createSlice({
             state.gameStatus = "playing";
         },
         pauseGame: (state) => {
-            state.gameStatus = "idle";
+            state.gameStatus = "pause";
         },
         finishGame: (state) => {
             state.gameStatus = "finished";

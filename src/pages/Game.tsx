@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
 import { answerQuestion, startQuizByCategory } from "@/features/quiz/quizSlice";
 import { Card } from "@/components/ui/card";
+import PauseMenu from "./PauseMenu";
 import GameHeading from "@/components/GameHeading";
 import ResultScreen from "./ResultScreen";
 
@@ -12,7 +13,8 @@ export default function Game() {
         categorizedQuestions = [], 
         currentQuestionIndex, 
         selectedCategory, 
-        gameResult
+        gameResult,
+        gameStatus
     } = useSelector((state: RootState) => state.quiz);
 
     const { playSound, stopSound } = useSoundEffect();
@@ -77,12 +79,16 @@ export default function Game() {
             text="Better luck next time! Keep practicing and you'll get it!" />);
     }
 
+    
+
     // Progress bar equation
     const totalQuestions = categorizedQuestions.length || 1;
     const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
     return (
         <div className="flex flex-col min-h-screen max-w-7xl w-full mx-auto text-white py-5 px-10">
+            {gameStatus === 'pause' && <PauseMenu />}
+
             <GameHeading />
 
             {/* Game Box */}
