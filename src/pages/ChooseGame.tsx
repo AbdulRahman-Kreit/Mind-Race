@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "@/app/store";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { setCategory, setDifficulty, startGame } from '@/features/quiz/quizSlice';
 
 import PageHeading from "@/components/PageHeading";
@@ -30,8 +29,8 @@ const difficulty = [
 const subheadingStyle = `text-lg lg:text-2xl font-semibold mb-5`;
 
 export default function ChooseGame() {
-    const { selectedCategory, selectedDifficulty } = useSelector((state: RootState) => state.quiz);
-    const dispatch = useDispatch();
+    const { selectedCategory, selectedDifficulty } = useAppSelector(state => state.quiz);
+    const dispatch = useAppDispatch();
 
     const handleSelectCategory = (type: string) => {
         dispatch(setCategory(type));

@@ -1,5 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "@/app/store";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { toggleBgMusic, toggleSoundEffects } from "@/features/settings/settingsSlice";
 import PageHeading from "@/components/PageHeading";
 import { Button } from "@base-ui/react/button";
@@ -18,11 +17,8 @@ const preferences: PreferenceItem[] = [
 ];
 
 export default function Settings() {
-    const dispatch = useDispatch();
-
-    const { isBgMusicMuted, isSoundEffectsMuted } = useSelector(
-        (state: RootState) => state.settings
-    );
+    const { isBgMusicMuted, isSoundEffectsMuted } = useAppSelector(state => state.settings);
+    const dispatch = useAppDispatch();
 
     const handleToggle = (type: "effects" | "music") => {
         if (type === "music") {

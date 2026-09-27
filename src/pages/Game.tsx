@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSoundEffect } from "@/hooks/useSoundEffect";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "@/app/store";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { answerQuestion, startQuizByCategory } from "@/features/quiz/quizSlice";
 import { Card } from "@/components/ui/card";
 import PauseMenu from "./PauseMenu";
@@ -15,10 +14,10 @@ export default function Game() {
         selectedCategory, 
         gameResult,
         gameStatus
-    } = useSelector((state: RootState) => state.quiz);
+    } = useAppSelector(state => state.quiz);
 
     const { playSound, stopSound } = useSoundEffect();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
     useEffect(() => {

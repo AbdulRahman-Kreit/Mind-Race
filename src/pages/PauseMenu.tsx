@@ -1,12 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/app/hook";
 import { Link } from "react-router-dom";
 import { startGame, resetQuiz } from "@/features/quiz/quizSlice";
-import type { AppDispatch } from "@/app/store";
 import { Button } from "@base-ui/react/button";
 import { Play, RotateCcw, Home } from "lucide-react";
 
 export default function PauseMenu() {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
 
     const handleResume = () => {
         dispatch(startGame());
@@ -45,10 +44,10 @@ export default function PauseMenu() {
                         onClick={handleRestart}
                         className="flex items-center justify-center gap-3 w-full py-3.5 bg-[#143250] hover:bg-[#1c436b] font-semibold text-lg rounded-xl transition-all cursor-pointer"
                     >
-                      <Link to='/' className="flex flex-row items-center justify-center gap-x-3">
-                        <Home className="w-5 h-5" />
-                        Back to Menu
-                      </Link>
+                        <Link to='/' className="flex flex-row items-center justify-center gap-x-3">
+                            <Home className="w-5 h-5" />
+                            Back to Menu
+                        </Link>
                     </Button>
                 </div>
             </div>

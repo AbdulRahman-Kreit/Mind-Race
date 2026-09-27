@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { finishGame, timeDecrement, pauseGame } from "@/features/quiz/quizSlice";
-import type { AppDispatch, RootState } from "@/app/store";
 import { Card } from "./ui/card";
 import { Button } from "@base-ui/react/button";
 import { Star, Clock, Flame, CircleX, Pause, type LucideIcon } from "lucide-react";
@@ -14,8 +13,8 @@ interface GameStat {
 }
 
 export default function GameHeading() {
-    const { timeLimit, score, streak, wrongAnswers, gameStatus } = useSelector((state: RootState) => state.quiz);
-    const dispatch = useDispatch<AppDispatch>();
+    const { timeLimit, score, streak, wrongAnswers, gameStatus } = useAppSelector(state => state.quiz);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         let intervalId: ReturnType<typeof setInterval>;

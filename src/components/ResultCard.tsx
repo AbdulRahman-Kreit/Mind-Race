@@ -1,5 +1,4 @@
-import { useSelector } from "react-redux";
-import type { RootState } from "@/app/store";
+import { useAppSelector } from "@/app/hook";
 import { Star, Flame, CheckCircle2, CircleX, Clock } from "lucide-react";
 
 export default function ResultCard() {
@@ -11,7 +10,7 @@ export default function ResultCard() {
         wrongAnswers, 
         timeLimit, 
         selectedDifficulty 
-    } = useSelector((state: RootState) => state.quiz);
+    } = useAppSelector(state => state.quiz);
 
     const totalQuestions = categorizedQuestions.length;
 
