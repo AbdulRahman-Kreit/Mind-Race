@@ -150,9 +150,10 @@ export const quizSlice = createSlice({
             state.gameStatus = "finished";
         },
         timeDecrement: (state) => {
-            if (state.timeLimit > 0) {
+            if (state.timeLimit > 1) {
                 state.timeLimit -= 1;
             } else {
+                state.timeLimit = 0;
                 state.isQuizOver = true;
                 state.gameStatus = 'finished';
                 state.gameResult = 'lose';
