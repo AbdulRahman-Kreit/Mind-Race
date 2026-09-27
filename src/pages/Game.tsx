@@ -16,7 +16,6 @@ export default function Game() {
     } = useSelector((state: RootState) => state.quiz);
 
     const { playSound, stopSound } = useSoundEffect();
-
     const dispatch = useDispatch();
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
@@ -78,6 +77,9 @@ export default function Game() {
             text="Better luck next time! Keep practicing and you'll get it!" />);
     }
 
+    // Progress bar equation
+    const totalQuestions = categorizedQuestions.length || 1;
+    const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
     return (
         <div className="flex flex-col min-h-screen max-w-7xl w-full mx-auto text-white py-5 px-10">
@@ -87,7 +89,12 @@ export default function Game() {
             <div className="flex flex-row justify-between mt-20">
                 {/* Progress Bar */}
                 <div className="flex flex-row items-center w-full">
-                    <span className="w-9/10 h-8 bg-linear-to-r from-[#032b50] to-[#032749] rounded-2xl"></span>
+                    <div className="w-9/10 h-8 bg-linear-to-r from-[#032b50] to-[#032749] rounded-2xl overflow-hidden p-1">
+                        <div 
+                            style={{ width: `${progress}%` }}
+                            className="h-full bg-linear-to-r from-[#F49735] to-[#EC4D0C] rounded-2xl transition-all duration-500 ease-out"
+                        />
+                    </div>
                     <h4 className="text-2xl py-1.5 px-4 border border-[#032749] rounded-3xl ml-5">
                         {currentQuestionIndex + 1}/{categorizedQuestions.length}
                     </h4>
